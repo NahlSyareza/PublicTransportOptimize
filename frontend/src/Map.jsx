@@ -13,16 +13,15 @@ export default function MapPage() {
   const zoom = 14;
   const API_KEY = "ufSae2pzQnoyaWrImsUL";
   const center = [106.858652, -6.24249];
-  const [getStCollections, setStCollections] = useState(null);
-  const [getStMarkers, setStMarkers] = useState(null);
+  const [getRoutes, setRoutes] = useState(null);
   const src = [106.90631095000612, -6.257573878437469];
-  const dest = [106.83320033729638, -6.339734739181452];
+  const dest = [106.82353210759675, -6.361164675613395];
 
   useEffect(() => {
     const fetch = async () => {
       try {
         const stCollections = await axios.get(
-          "http://localhost:5000/maret89/st/markers",
+          "http://localhost:5000/pto/global_routes",
           {
             params: {
               src: src,
@@ -30,18 +29,7 @@ export default function MapPage() {
             },
           }
         );
-        setStMarkers(stCollections.data.payload);
-
-        const stMarkers = await axios.get(
-          "http://localhost:5000/maret89/st/collections",
-          {
-            params: {
-              src: src,
-              dest: dest,
-            },
-          }
-        );
-        setStCollections(stMarkers.data.payload);
+        setRoutes(stCollections.data.payload);
       } catch (error) {
         console.log(error);
       }
@@ -51,10 +39,7 @@ export default function MapPage() {
   }, []);
 
   useEffect(() => {
-    if (!getStCollections || !getStMarkers) return;
-
-    console.log(getStCollections);
-    console.log(getStMarkers);
+    if (!getRoutes) return;
 
     map.current = new maplibregl.Map({
       container: mapContainer.current,
@@ -64,7 +49,7 @@ export default function MapPage() {
     });
 
     map.current.on("load", () => {
-      getStMarkers.forEach((mark) => {
+      getRoutes.forEach((mark) => {
         new maplibregl.Marker({
           color: "#FF0000",
         })
@@ -85,7 +70,7 @@ export default function MapPage() {
           type: "Feature",
           geometry: {
             type: "LineString",
-            coordinates: Object.values(getStCollections),
+            coordinates: getRoutes.map((st) => st.coords),
           },
         },
       });
@@ -113,7 +98,7 @@ export default function MapPage() {
         console.log(error);
       }
     });
-  }, [map, API_KEY, zoom, getStCollections, getStMarkers]);
+  }, [map, API_KEY, zoom, getRoutes]);
 
   return (
     <div className="relative w-screen h-screen">

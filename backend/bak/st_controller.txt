@@ -1,6 +1,6 @@
 const alg = require("../models/algorithm_conf");
 
-const coords = {
+const stCollections = {
   stManggarai: [106.84997503831084, -6.210434394178989],
   stTebet: [106.85843992737534, -6.2263980321163785],
   stCawang: [106.85868911789868, -6.242550437138419],
@@ -14,7 +14,76 @@ const coords = {
   stPondokCina: [106.83208480681662, -6.369059538548413],
 };
 
-const relations = {
+const stMarkers = [
+  {
+    coords: stCollections.stManggarai,
+    id: "stManggarai",
+    name: "St. Manggarai",
+    desc: "Manggarai station, please mind the platform gap",
+  },
+  {
+    coords: stCollections.stTebet,
+    id: "stTebet",
+    name: "St. Tebet",
+    desc: "Tebet station, please mind the platform gap",
+  },
+  {
+    coords: stCollections.stCawang,
+    id: "stCawang",
+    name: "St. Cawang",
+    desc: "Cawang station, please mind the platform gap",
+  },
+  {
+    coords: stCollections.stDurenKalibata,
+    id: "stDurenKalibata",
+    name: "St. Duren Kalibata",
+    desc: "Duren Kalibata station, please mind the platform gap",
+  },
+  {
+    coords: stCollections.stPasarMingguBaru,
+    id: "stPasarMingguBaru",
+    name: "St. Pasar Minggu Baru",
+    desc: "Pasar Minggu Baru station, please mind the platform gap",
+  },
+  {
+    coords: stCollections.stPasarMinggu,
+    id: "stPasarMinggu",
+    name: "St. Pasar Minggu",
+    desc: "Pasar Minggu station, please mind the platform gap",
+  },
+  {
+    coords: stCollections.stTanjungBarat,
+    id: "stTanjungBarat",
+    name: "St. Tanjung Barat",
+    desc: "Tanjung Barat station, please mind the platform gap",
+  },
+  {
+    coords: stCollections.stLentengAgung,
+    id: "stLentengAgung",
+    name: "St. Lenteng Agung",
+    desc: "Lenteng Agung station, please mind the platform gap",
+  },
+  {
+    coords: stCollections.stUniversitasPancasila,
+    id: "stUniversitasPancasila",
+    name: "St. Universitas Pancasila",
+    desc: "Universitas Pancasila station, please mind the platform gap",
+  },
+  {
+    coords: stCollections.stUniversitasIndonesia,
+    id: "stUniversitasIndonesia",
+    name: "St. Universitas Indonesia",
+    desc: "Universitas Indonesia station, please mind the platform gap",
+  },
+  {
+    coords: stCollections.stPondokCina,
+    id: "stPondokCina",
+    name: "St. Pondok Cina",
+    desc: "Pondok Cina station, please mind the platform gap",
+  },
+];
+
+const stRelations = {
   stManggarai: ["stTebet"],
   stTebet: ["stManggarai", "stCawang"],
   stCawang: ["stTebet", "stDurenKalibata"],
@@ -27,97 +96,6 @@ const relations = {
   stUniversitasIndonesia: ["stUniversitasPancasila", "stPondokCina"],
   stPondokCina: ["stUniversitasIndonesia"],
 };
-
-exports.points = [
-  {
-    coords: coords.stManggarai,
-    id: "stManggarai",
-    type: "st",
-    name: "St. Manggarai",
-    desc: "Manggarai station, please mind the platform gap",
-    relations: relations.stManggarai,
-  },
-  {
-    coords: coords.stTebet,
-    id: "stTebet",
-    type: "st",
-    name: "St. Tebet",
-    desc: "Tebet station, please mind the platform gap",
-    relations: relations.stTebet,
-  },
-  {
-    coords: coords.stCawang,
-    id: "stCawang",
-    type: "st",
-    name: "St. Cawang",
-    desc: "Cawang station, please mind the platform gap",
-    relations: relations.stCawang,
-  },
-  {
-    coords: coords.stDurenKalibata,
-    id: "stDurenKalibata",
-    type: "st",
-    name: "St. Duren Kalibata",
-    desc: "Duren Kalibata station, please mind the platform gap",
-    relations: relations.stDurenKalibata,
-  },
-  {
-    coords: coords.stPasarMingguBaru,
-    id: "stPasarMingguBaru",
-    type: "st",
-    name: "St. Pasar Minggu Baru",
-    desc: "Pasar Minggu Baru station, please mind the platform gap",
-    relations: relations.stPasarMingguBaru,
-  },
-  {
-    coords: coords.stPasarMinggu,
-    id: "stPasarMinggu",
-    type: "st",
-    name: "St. Pasar Minggu",
-    desc: "Pasar Minggu station, please mind the platform gap",
-    relations: relations.stPasarMinggu,
-  },
-  {
-    coords: coords.stTanjungBarat,
-    id: "stTanjungBarat",
-    type: "st",
-    name: "St. Tanjung Barat",
-    desc: "Tanjung Barat station, please mind the platform gap",
-    relations: relations.stTanjungBarat,
-  },
-  {
-    coords: coords.stLentengAgung,
-    id: "stLentengAgung",
-    type: "st",
-    name: "St. Lenteng Agung",
-    desc: "Lenteng Agung station, please mind the platform gap",
-    relations: relations.stLentengAgung,
-  },
-  {
-    coords: coords.stUniversitasPancasila,
-    id: "stUniversitasPancasila",
-    type: "st",
-    name: "St. Universitas Pancasila",
-    desc: "Universitas Pancasila station, please mind the platform gap",
-    relations: relations.stUniversitasPancasila,
-  },
-  {
-    coords: coords.stUniversitasIndonesia,
-    id: "stUniversitasIndonesia",
-    type: "st",
-    name: "St. Universitas Indonesia",
-    desc: "Universitas Indonesia station, please mind the platform gap",
-    relations: relations.stUniversitasIndonesia,
-  },
-  {
-    coords: coords.stPondokCina,
-    id: "stPondokCina",
-    type: "st",
-    name: "St. Pondok Cina",
-    desc: "Pondok Cina station, please mind the platform gap",
-    relations: relations.stPondokCina,
-  },
-];
 
 // This is some next level magic right here
 // Short for Breadth First Search
@@ -170,22 +148,22 @@ exports.points = [
 
 exports.getStRoutes = (src, dest) => {
   const st = alg.bfs(
-    alg.fnp(stPoints, src),
-    alg.fnp(stPoints, dest),
-    relations
+    alg.fnp(stCollections, src),
+    alg.fnp(stCollections, dest),
+    stRelations
   );
-  const coordsTrue = st.map((sta) => coords[sta]);
+  const stCollectionsTrue = st.map((sta) => stCollections[sta]);
 
-  return coordsTrue;
+  return stCollectionsTrue;
 };
 
-exports.getstPoints = (src, dest) => {
+exports.getStMarkers = (src, dest) => {
   const st = alg.bfs(
-    alg.fnp(stPoints, src),
-    alg.fnp(stPoints, dest),
-    relations
+    alg.fnp(stCollections, src),
+    alg.fnp(stCollections, dest),
+    stRelations
   );
 
-  const stPointsTrue = stPoints.filter((e) => st.includes(e.id));
-  return stPointsTrue;
+  const stMarkersTrue = stMarkers.filter((e) => st.includes(e.id));
+  return stMarkersTrue;
 };

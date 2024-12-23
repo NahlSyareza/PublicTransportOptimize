@@ -1,48 +1,45 @@
-// This is some next level magic right here
-// Short for Breadth First Search
-exports.bfs = (src, dest) => {
-  let queue = [[src]];
-  let visited = new Set();
+exports.bfs = (set, src, dest) => {
+  const visited = new Set();
+  const queue = [[set.find((s) => s.id === src)]];
 
   while (queue.length > 0) {
     const path = queue.shift();
-    const node = path[path.length - 1];
+    const currentStation = path[path.length - 1];
 
-    if (node === dest) {
+    if (currentStation.id === dest) {
       return path;
     }
 
-    if (!visited.has(node)) {
-      visited.add(node);
-      const neighbors = stRelations[node] || []; // Get the neighbors of the current node
-      // For each neighbor, add the new path to the queue
-      neighbors.forEach((neighbor) => {
-        queue.push([...path, neighbor]); // Append the neighbor to the current path
-      });
+    if (!visited.has(currentStation.id)) {
+      visited.add(currentStation.id);
+      for (const neighborId of currentStation.relations) {
+        const neighborStation = set.find((s) => s.id === neighborId);
+        if (neighborStation && !visited.has(neighborId)) {
+          queue.push([...path, neighborStation]);
+        }
+      }
     }
   }
 
-  return [];
+  return null;
 };
 
-exports.fnp = (dest) => {
-  let nearest = null;
-  let minDistance = Infinity;
+exports.fnp = (set, dest) => {
+  let nearestStation = null;
+  let shortestDistance = Infinity;
 
-  const calculateDistance = ([lng1, lat1], [lng2, lat2]) => {
-    const lngDiff = lng2 - lng1;
-    const latDiff = lat2 - lat1;
+  set.forEach((station) => {
+    const [x1, y1] = dest;
+    const [x2, y2] = station.coords;
 
-    return Math.sqrt(Math.pow(lngDiff, 2) + Math.pow(latDiff, 2));
-  };
+    // Calculate Euclidean distance
+    const distance = Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
 
-  Object.entries(stCollections).forEach(([key, value]) => {
-    const distance = calculateDistance(value, dest);
-    if (distance < minDistance) {
-      minDistance = distance;
-      nearest = { key, value, distance };
+    if (distance < shortestDistance) {
+      shortestDistance = distance;
+      nearestStation = station;
     }
   });
 
-  return nearest.key;
+  return nearestStation;
 };
