@@ -95,7 +95,7 @@ exports.points = [
     type: "stk",
     name: "St. KRL Cikini",
     desc: "",
-    relations: ["stkManggarai", "stkGondangdia", "stkMatraman"],
+    relations: ["stkManggarai", "stkGondangdia"],
   },
   {
     coords: [106.84997503831084, -6.210434394178989],
@@ -103,7 +103,7 @@ exports.points = [
     type: "stk",
     name: "St. KRL Manggarai",
     desc: "Manggarai station, please mind the platform gap",
-    relations: ["stkTebet", "stkCikini"],
+    relations: ["stkTebet", "stkCikini", "stkMatraman"],
   },
   {
     coords: [106.85843992737534, -6.2263980321163785],
