@@ -2,7 +2,6 @@ const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv").config();
 const route = require("./routes/global_routes");
-const global = require("./controllers/global_controller");
 
 const app = express();
 const port = 5000;

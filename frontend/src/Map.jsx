@@ -6,16 +6,20 @@ import { createCustomMarkerElement } from "./Utils";
 import reactImg from "./assets/react.svg";
 import Overtime from "./Overtime";
 import axios from "axios";
+import PointPicker from "./PointPicker";
 
 export default function MapPage() {
   const mapContainer = useRef(null);
   const map = useRef(null);
   const zoom = 14;
   const API_KEY = "ufSae2pzQnoyaWrImsUL";
-  const center = [106.858652, -6.24249];
+  const center = [106.87090565688231, -6.238906762201168];
   const [getRoutes, setRoutes] = useState(null);
-  const src = [106.90631095000612, -6.257573878437469];
-  const dest = [106.82353210759675, -6.361164675613395];
+  const [getSrc, setSrc] = useState([106.90631095000612, -6.257573878437469]);
+  const [getDest, setDest] = useState([106.82353210759675, -6.361164675613395]);
+  const both = [getSrc, getDest];
+  const [getMode, setMode] = useState(false);
+  const [getEnable, setEnable] = useState(false);
 
   useEffect(() => {
     const fetch = async () => {
@@ -24,8 +28,8 @@ export default function MapPage() {
           "http://localhost:5000/pto/global_routes",
           {
             params: {
-              src: src,
-              dest: dest,
+              src: getSrc,
+              dest: getDest,
             },
           }
         );
@@ -36,7 +40,7 @@ export default function MapPage() {
     };
 
     fetch();
-  }, []);
+  }, [getSrc, getDest]);
 
   useEffect(() => {
     if (!getRoutes) return;
@@ -49,6 +53,14 @@ export default function MapPage() {
     });
 
     map.current.on("load", () => {
+      both.forEach((e) => {
+        new maplibregl.Marker({
+          color: "#FF0000",
+        })
+          .setLngLat(e)
+          .addTo(map.current);
+      });
+
       getRoutes.forEach((mark) => {
         new maplibregl.Marker({
           color: "#FF0000",
@@ -93,15 +105,56 @@ export default function MapPage() {
     map.current.on("click", (e) => {
       try {
         const { lng, lat } = e.lngLat;
+        const vole = [lng, lat];
         console.log(`${lng}, ${lat}`);
+        if (getEnable) {
+          if (!getMode) {
+            setSrc(vole);
+          } else {
+            setDest(vole);
+          }
+        }
       } catch (error) {
         console.log(error);
       }
     });
-  }, [map, API_KEY, zoom, getRoutes]);
+  }, [map, API_KEY, zoom, getRoutes, getMode, getEnable]);
+
+  const a = () => {
+    console.log("AAA");
+  };
 
   return (
     <div className="relative w-screen h-screen">
+      <PointPicker src={getSrc} dest={getDest} />
+      <div className="flex w-full">
+        <div
+          className="font-montserrat bg-gray-600 text-white flex justify-center w-1/2"
+          onClick={(e) => {
+            console.log(getMode);
+            setMode(!getMode);
+          }}
+        >
+          <p>
+            {getMode ? "Choose a destination point!" : "Choose a source point!"}
+          </p>
+        </div>
+        <div
+          className={
+            getEnable
+              ? "font-montserrat bg-green-800 text-white flex justify-center w-1/2"
+              : "font-montserrat bg-red-800 text-white flex justify-center w-1/2"
+          }
+          onClick={(e) => {
+            console.log(getEnable);
+            setEnable(!getEnable);
+          }}
+        >
+          <p>
+            {getEnable ? "Point picker enabled!" : "Point picker disabled!"}
+          </p>
+        </div>
+      </div>
       <div ref={mapContainer} className="w-full h-full" />
     </div>
   );

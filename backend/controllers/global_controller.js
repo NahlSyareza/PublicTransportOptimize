@@ -1,10 +1,8 @@
 const alg = require("../models/algorithm_conf");
-const stController = require("../controllers/st_controller");
-const stlController = require("../controllers/stl_controller");
+const stkController = require("./stk_controller");
+const stlController = require("./stl_controller");
 
-const globalPoints = [...stController.points, ...stlController.points];
-
-console.log("Heheheha");
+const globalPoints = [...stkController.points, ...stlController.points];
 
 exports.getAllGlobalPoints = async (req, res) => {
   try {
@@ -40,61 +38,45 @@ exports.getGlobalRoutes = async (req, res) => {
     let routesDest;
 
     switch (fnpSrc.type) {
-      case "st":
-        console.log("Source is st");
-        routesSrc = alg.bfs(stController.points, fnpSrc.id, "stCawang");
+      case "stk":
+        routesSrc = alg.bfs(stkController.points, fnpSrc.id, "stkCawang");
         break;
 
       case "stl":
-        console.log("Source is stl");
         routesSrc = alg.bfs(stlController.points, fnpSrc.id, "stlCikoko");
         break;
 
       default:
-        console.log("What is that type? Are you joking?");
         break;
     }
 
     switch (fnpDest.type) {
-      case "st":
-        console.log("Destination is st");
-        routesDest = alg.bfs(stController.points, "stCawang", fnpDest.id);
+      case "stk":
+        routesDest = alg.bfs(stkController.points, "stkCawang", fnpDest.id);
         break;
 
       case "stl":
-        console.log("Destination is stl");
         routesDest = alg.bfs(stlController.points, "stlCikoko", fnpDest.id);
         break;
 
       default:
-        console.log("What is this type? Are you joking?");
         break;
     }
 
     routes = [...routesSrc, ...routesDest];
-
-    // console.log(
-    //   `Is not the same! (fnpSrc: ${fnpSrc.type} fnpDest: ${fnpDest.type})`
-    // );
   } else {
     switch (fnpSrc.type) {
-      case "st":
-        console.log("Both type is st");
-        routes = alg.bfs(stController.points, fnpSrc.id, fnpDest.id);
+      case "stk":
+        routes = alg.bfs(stkController.points, fnpSrc.id, fnpDest.id);
         break;
 
       case "stl":
-        console.log("Both type is stl");
         routes = alg.bfs(stlController.points, fnpSrc.id, fnpDest.id);
         break;
 
       default:
         break;
     }
-
-    // console.log(
-    //   `Is the same! (fnpSrc: ${fnpSrc.type} fnpDest: ${fnpDest.type})`
-    // );
   }
 
   try {
@@ -111,7 +93,7 @@ exports.getGlobalRoutes = async (req, res) => {
 
 exports.getStRoutes = async (req, res) => {
   let { src, dest } = req.query;
-  const points = stController.points;
+  const points = stkController.points;
 
   if (typeof src === "string") {
     src = JSON.parse(src);
